@@ -77,18 +77,42 @@
 - 黑龙江新闻法治 (hljxwfz)
 - 黑龙江少儿 (hljse)
 
-### 📺 辽宁TV (11个) 🔗全链路代理
+### 📺 辽宁TV (41个) 🔗全链路代理
 - 辽宁卫视 (lnws)
-- 都市频道 (dspd)
-- 体育频道 (typd)
-- 生活频道 (shpd)
-- 青少频道 (qspd)
-- 影视剧频道 (ysjpd)
-- 北方频道 (bfpd)
-- 移动频道-宜居购物 (yjgw)
-- 新动漫频道 (xdm)
-- 家庭理财 (jtlc)
-- 移动电视 (ydds)
+- 辽宁都市 (lnds)
+- 辽宁影视 (lnys)
+- 辽宁教育青少 (lnjy)
+- 辽宁生活 (lnsh)
+- 辽宁体育 (lnty)
+- 辽宁北方 (lnbf)
+- 辽宁宜佳购物 (lnyj)
+- 辽宁新动漫 (lnxdm)
+- 辽宁家庭理财 (lnjtlc)
+- 辽宁移动电视 (lnyd)
+- 抚顺综合 (fszh)
+- 抚顺教育 (fsjy)
+- 清原综合 (qyzh)
+- 调兵山综合 (dbszh)
+- 昌图综合 (ctzh)
+- 西丰综合 (xfzh)
+- 开原综合 (kyzh)
+- 法库新闻综合 (fkxwzh)
+- 新民综合 (xmzh)
+- 朝阳县广播电视台 (cyxdst)
+- 北票新闻综合 (bpxwzh)
+- 喀左综合 (kzzh)
+- 阜蒙汉语综合 (fmhyzh)
+- 彰武综合 (zwzh)
+- 兴城综合 (xczh)
+- 绥中综合 (szzh)
+- 瓦房店新闻综合 (wfdxwzh)
+- 庄河综合 (zhzh)
+- 东港新东港 (dgxdg)
+- 宽甸综合 (kdzh)
+- 辽阳新闻综合 (lyxwzh)
+- 辽阳社会生活 (lyshsh)
+- 营口新闻综合 (ykxwzh)
+- 营口辽河文化生活 (yklh)
 
 ### 📺 江苏TV (50个)
 - 江苏卫视 (jsws)
@@ -719,9 +743,13 @@ https://your-domain.com/api/chongqing?id=cqxw
 # 黑龙江卫视
 https://your-domain.com/api/heilongjiang?id=hljws
 
-# 辽宁卫视（全链路代理）
-https://your-domain.com/api/liaoning?id=lnws
-https://your-domain.com/api/liaoning?id=list  # 获取完整频道列表
+# 辽宁TV（全链路代理 + RSA解密 + EPG智能回放）
+https://your-domain.com/api/liaoning?id=lnws       # 辽宁卫视
+https://your-domain.com/api/liaoning?id=lnds       # 辽宁都市
+https://your-domain.com/api/liaoning?id=fszh       # 抚顺综合
+https://your-domain.com/api/liaoning?id=fkxwzh     # 法库新闻综合
+https://your-domain.com/api/liaoning?id=ykxwzh     # 营口新闻综合
+https://your-domain.com/api/liaoning?id=list       # 获取完整频道列表
 
 # 江西TV
 https://your-domain.com/api/jiangxi?id=jxws      # 江西卫视
@@ -736,7 +764,7 @@ https://your-domain.com/api/guangxi?id=list      # 获取完整频道列表
 
 # 青海卫视
 https://your-domain.com/api/qinghai?id=qhws
-https://your-domain.com/api/qinghai?id=list  # 获取完整频道列表
+https://your-domain.com/api/qinghai?id=list      # 获取完整频道列表
 
 # 湖北省台（全链路代理 + WebSocket心跳）
 # 电视频道示例
@@ -781,7 +809,6 @@ https://your-domain.com/all.m3u8
 ### 播放器使用
 
 ```m3u
-```m3u
 #EXTM3U
 #EXTINF:-1,北京卫视4K
 https://your-domain.com/api/4k?id=btv4k
@@ -821,7 +848,6 @@ https://your-domain.com/api/hubei?id=list
 # 全国所有频道汇总（强烈推荐！）
 #EXTINF:-1,全国IPTV频道汇总
 https://your-domain.com/all.m3u8
-```
 ```
  
 ## 本地开发
@@ -871,6 +897,25 @@ docker run -d \
   iptv-edgeone
 ```
 
+或者用如下Docker Compose：
+```yml
+services:
+  iptv-edgeone:
+    image: ghcr.io/vitter/iptv-edgeone:latest
+    container_name: iptv-edgeone
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - iptv-network
+networks:
+  iptv-network:
+    driver: bridge
+```
+
 容器启动后同样访问: http://localhost:3000
 
 参见 `DEPLOY.md` 以获取 EdgeOne 兼容性、环境变量和调试提示。
@@ -878,13 +923,7 @@ docker run -d \
 ## 部署到EdgeOne Pages
 
 1. **准备仓库**
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git remote add origin <your-repo-url>
-   git push -u origin main
-   ```
+   Fork 本项目
 
 2. **EdgeOne Pages配置**
    - 登录腾讯云EdgeOne控制台
